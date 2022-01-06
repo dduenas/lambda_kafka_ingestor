@@ -1,0 +1,151 @@
+{
+  "Comment": "Step Function for kafka_ingestion",
+  "StartAt": "loop_mapping",
+  "States": {
+    "loop_mapping": {
+      "Type": "Map",
+      "InputPath": "$",
+      "ItemsPath": "$.iterations",
+      "MaxConcurrency": 1,
+      "Parameters": {
+        "seconds_wait.$": "$.seconds_wait",
+        "partitions.$": "$.partitions",
+        "lambda_name.$": "$.lambda_name",
+        "iteration.$": "$$.Map.Item.Value"
+      },
+      "Iterator": {
+        "StartAt": "get_parameters",
+        "States": {
+          "get_parameters": {
+            "Type": "Pass",
+            "Parameters": {
+              "seconds_wait.$": "$.seconds_wait",
+              "partitions.$": "$.partitions",
+              "lambda_name.$": "$.lambda_name",
+              "iteration.$": "$.iteration"
+            },
+            "Next": "parallel_lambda_processing"
+          },
+          "parallel_lambda_processing": {
+            "Type": "Map",
+            "InputPath": "$",
+            "ItemsPath": "$.partitions",
+            "MaxConcurrency": 3,
+            "Parameters": {
+              "partition.$": "$$.Map.Item.Value",
+              "lambda_name.$": "$.lambda_name",
+              "iteration.$": "$.iteration"
+            },
+            "Iterator": {
+              "StartAt": "get_partition",
+              "States": {
+                "get_partition": {
+                  "Type": "Pass",
+                  "Parameters": {
+                    "partition.$": "$.partition",
+                    "lambda_name.$": "$.lambda_name",
+                    "iteration.$": "$.iteration"
+                  },
+                  "Next": "execute_lambda_kafka"
+                },
+                "execute_lambda_kafka": {
+                  "Type": "Task",
+                  "Resource": "arn:aws:states:::lambda:invoke",
+                  "Parameters": {
+                    "FunctionName.$": "$.lambda_name",
+                    "Payload": {
+                      "kafka_partition.$": "$.partition",
+                      "iteration.$": "$.iteration"
+                    }
+                  },
+                  "Next": "success_lambda",
+                  "ResultPath": null,
+                  "Catch": [
+                    {
+                      "ErrorEquals": [
+                        "States.ALL"
+                      ],
+                      "ResultPath": "$.Error",
+                      "Next": "failure_lambda"
+                    }
+                  ]
+                },
+                "success_lambda": {
+                  "Type": "Pass",
+                  "Parameters": {
+                    "Passed.$": "States.Format('Task Succeed: {}', $)"
+                  },
+                  "OutputPath": "$.Passed",
+                  "End": true
+                },
+                "failure_lambda": {
+                  "Type": "Fail",
+                  "Cause": "Invalid response.",
+                  "Error": "Lambda Error"
+                }
+              }
+            },
+            "ResultPath": null,
+            "Next": "wait_for_new_execution",
+            "Catch": [
+              {
+                "ErrorEquals": [
+                  "States.ALL"
+                ],
+                "ResultPath": "$.Error",
+                "Next": "failure"
+              }
+            ]
+          },
+          "wait_for_new_execution": {
+            "Type": "Wait",
+            "SecondsPath": "$.seconds_wait",
+            "Next": "success"
+          },
+          "success": {
+            "Type": "Pass",
+            "Parameters": {
+              "Passed.$": "States.Format('Task Succeed: {}', $)"
+            },
+            "OutputPath": "$.Passed",
+            "End": true
+          },
+          "failure": {
+            "Type": "Pass",
+            "Parameters": {
+              "Error.$": "States.Format('Task Failed: {}', $)"
+            },
+            "OutputPath": "$.Error",
+            "End": true
+          }
+        }
+      },
+      "ResultPath": "$",
+      "Next": "pass_results"
+    },
+    "pass_results": {
+      "Type": "Pass",
+      "Parameters": {
+        "output.$": "States.JsonToString($)"
+      },
+      "Next": "check_results"
+    },
+    "check_results": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.output",
+          "StringMatches": "*Task Failed*",
+          "Next": "error"
+        }
+      ],
+      "Default": "done"
+    },
+    "done": {
+      "Type": "Succeed"
+    },
+    "error": {
+      "Type": "Fail"
+    }
+  }
+}

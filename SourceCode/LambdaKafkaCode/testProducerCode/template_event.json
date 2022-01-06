@@ -1,0 +1,191 @@
+{
+    "resource_path": "post",
+    "request_http_headers": [
+      {
+        "accept-encoding": "gzip"
+      },
+      {
+        "user-agent": "ReactorNetty/0.9.8.RELEASE"
+      },
+      {
+        "host": "api-aws.apps.example.com"
+      },
+      {
+        "Content-Type": "application/json"
+      },
+      {
+        "Accept": "application/json"
+      },
+      {
+        "X-dynaTrace": "FW4;-1123358233;3;111045502;466294;0;228749726;292;2679;2h01;3h069e6b7e;4h071d76"
+      },
+      {
+        "content-length": "458"
+      },
+      {
+        "Via": "1.1 DQAAADxeZUA-"
+      },
+      {
+        "X-Client-IP": "10.103.122.128"
+      },
+      {
+        "X-Global-Transaction-ID": "c5518a3260cb75350de4e669"
+      }
+    ],
+    "log_policy": "header",
+    "response_body": "",
+    "request_method": "POST",
+    "api_version": "1.0.0",
+    "product_name": "accounts-aws",
+    "app_id": "5ec2bc6be4b098a2f8e0575e",
+    "org_id": "5d5c6051e4b06a5c6ed5e308",
+    "headers": {
+      "http_version": "HTTP/1.1",
+      "http_x_forwarded_for": "10.103.11.191",
+      "http_x_global_transaction_id": "c5518a3260cb75351585fcb5",
+      "content_length": "5596",
+      "request_uri": "/_bulk",
+      "request_method": "POST",
+      "http_x_forwarded_host": "10.12.12.12:9443",
+      "request_path": "/_bulk",
+      "http_host": "localhost:9700",
+      "http_connection": "Keep-Alive",
+      "http_x_forwarded_server": "SERVER1.SBMDEBPCDD01",
+      "http_organization": "admin",
+      "content_type": "text/plain",
+      "http_x_client_ip": "127.0.0.1",
+      "http_via": "1.1 CQAAAAzrGIc-",
+      "http__ws_haprt_wlmversion": "-1"
+    },
+    "product_id": "5f85fd0de4b098a2fa3978d1",
+    "response_http_headers": [
+      {
+        "Content-Type": "application/json"
+      },
+      {
+        "Date": "Thu, 17 Jun 2021 16:15:49 GMT"
+      },
+      {
+        "X-Global-Transaction-ID": "c5518a3260cb75350de4e669"
+      },
+      {
+        "Content-Length": "1590"
+      },
+      {
+        "x-envoy-upstream-service-time": "7"
+      },
+      {
+        "server": "istio-envoy"
+      },
+      {
+        "Access-Control-Expose-Headers": "APIm-Debug-Trans-Id, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, X-Global-Transaction-ID"
+      },
+      {
+        "Access-Control-Allow-Origin": "*"
+      },
+      {
+        "Access-Control-Allow-Methods": "POST"
+      },
+      {
+        "X-RateLimit-Limit": "name=rate-limit,100;"
+      },
+      {
+        "X-RateLimit-Remaining": "name=rate-limit,0;"
+      }
+    ],
+    "api_id": "5f85fd0ce4b098a2fa3978d0",
+    "query_string": [],
+    "catalog_id": "5d5eae65e4b0216f73ec5617",
+    "datetime": "2021-06-17T16:15:49.341Z",
+    "client_geoip": {},
+    "status_code": "200 OK",
+    "request_protocol": "https",
+    "@version": "1",
+    "latency_info": [
+      {
+        "started": 0,
+        "task": "Start"
+      },
+      {
+        "started": 6,
+        "task": "security-appID"
+      },
+      {
+        "started": 6,
+        "task": "PlanRateLimits"
+      },
+      {
+        "started": 7,
+        "task": "invoke"
+      }
+    ],
+    "resource_id": "account-accounts-aws:1.0.0:post:/customers/accounts/retrieve-list",
+    "plan_id": "accounts-aws:1.1.0:default",
+    "space_name": [
+      "aws"
+    ],
+    "rateLimit": {
+      "rate-limit": {
+        "interval": 1,
+        "period": 3600,
+        "count": 11417,
+        "limit": 100,
+        "shared": "true",
+        "unit": "hour",
+        "reject": "true",
+        "threshold": 114.17
+      },
+      "rate-limit-1": {
+        "limit": "-1",
+        "count": "-1"
+      },
+      "per-minute": {
+        "limit": "-1",
+        "count": "-1"
+      },
+      "rate-limit-2": {
+        "limit": "-1",
+        "count": "-1"
+      }
+    },
+    "gateway_geoip": {},
+    "client_ip": "10.12.12.12",
+    "tags": [
+      "_geoip_lookup_failure"
+    ],
+    "app_name": "APP_1",
+    "uri_path": "/int/production/v1/operations/product-specific/api_1/test/test_api1/retrieve-list",
+    "time_to_serve_request": 24,
+    "@timestamp": "2021-06-17T16:15:49.520Z",
+    "app_type": "PRODUCTION",
+    "bytes_sent": 1590,
+    "org_name": "int",
+    "host": "127.0.0.1",
+    "api_name": "api_1",
+    "bytes_received": 458,
+    "endpoint_url": "N/A",
+    "transaction_id": "233105001",
+    "immediate_client_ip": "10.12.12.12",
+    "catalog_name": "production",
+    "product_version": "1.1.0",
+    "request_body": "",
+    "http_user_agent": "ReactorNetty/0.9.8.RELEASE",
+    "plan_name": "default",
+    "client_id": "0c72a58e-29f0-46c5-02b0ac553",
+    "developer_org_id": "5ec2b96ce4b0c20b375",
+    "billing": {
+      "trial_period_days": 0,
+      "model": "free",
+      "amount": 0,
+      "provider": "none",
+      "currency": "USD"
+    },
+    "space_id": [
+      "5d5ef4f4eb0a5109"
+    ],
+    "plan_version": "1.1.0",
+    "developer_org_name": "dev1",
+    "gateway_ip": "10.2.2.2",
+    "product_title": "Accounts AWS",
+    "developer_org_title": "dev1"
+}

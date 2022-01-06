@@ -1,0 +1,58 @@
+{
+  "aws_region_name": "us-east-1",
+  "aws_access_key_id": "",
+  "aws_secret_access_key": "",
+  "events": {
+    "health": "health"
+  },
+  "status_message_codes": {
+    "fully_processed": {
+      "code": 200,
+      "message": "Kafka messages found and fully processed."
+    },
+    "partially_processed": {
+      "code": 206,
+      "message": "Kafka messages were found but some failing. See logs and detail field for more information."
+    },
+    "completely_failed": {
+      "code": 503,
+      "message": "Kafka messages were found and all failed. See logs and detail field for more information."
+    },
+    "not_found_records": {
+      "code": 204,
+      "message": "No Kafka messages were found."
+    },
+    "another_lambda_processing_records": {
+      "code": 203,
+      "message": "Another lambda processg records in partition, skipping."
+    }
+  },
+  "kinesis": {
+     "retry_count": 10,
+     "retry_wait_in_sec": 0.1,
+     "stream_name": "testDS1"
+  },
+  "kafka" : {
+      "bootstrap_servers": "b-1.msktest.qx098q.c21.kafka.us-east-1.amazonaws.com:9094,b-2.msktest.qx098q.c21.kafka.us-east-1.amazonaws.com:9094",
+      "topic_name": "ExampleTopic",
+      "group_id": "ExampleTopic-G1",
+      "enable_auto_commit": "true",
+      "records_batch_size": 300,
+      "poll_seconds": 4,
+      "security_protocol": "SSL",
+      "use_authentication": "false",
+      "use_truststore_only": "true",
+      "ssl_ca_location": "config/all.pem",
+      "secrets_ssl_certificate_location": "dev-kafka-public-cert",
+      "secrets_ssl_key_location": "dev-kafka-private-key"
+  },
+  "dynamodb": {
+     "use_control_table": "true",
+     "control_table_name": "inn007-dynamo-kafka-control",
+     "primary_key_name": "topic_partition_id",
+     "time_to_live_time_mins": "3"
+  },
+  "lambda": {
+     "temp_folder": "/tmp/"
+  }
+}
